@@ -72,16 +72,8 @@ alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax
 `anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';
 
 
-anoop@cqlsh> LIST ROLES;
+`anoop@cqlsh> LIST ROLES;`
 
- role         | super | login | options
---------------+-------+-------+---------
- alwayson_sql | False |  True |        {}
-       my_name|  True |  True |        {}
-    cassandra | False | False |        {}
-
-(3 rows)
-`
 
 - grant proxy to alwayson_sql user for the new user. 
 - Once all changes are done, restart the dse service and Alwayson_sql comes up itself if everything was setup correctly. 
@@ -121,8 +113,70 @@ run (Scala, Java)   | `dse spark-submit --class com.datastax.spark.example.Write
 
 # Exercise Questions
 
+### please refer FlightsData.scala. 
+Create the base data model using the following table definition.
+ 
 
+`CREATE TABLE flights (
 
+          ID int PRIMARY KEY,
+
+          YEAR int,        
+
+          DAY_OF_MONTH int,
+
+          FL_DATE timestamp,
+
+          AIRLINE_ID int,
+
+          CARRIER varchar,
+
+          FL_NUM int,
+
+          ORIGIN_AIRPORT_ID int,
+
+          ORIGIN varchar,
+
+          ORIGIN_CITY_NAME varchar,
+
+          ORIGIN_STATE_ABR varchar,
+
+          DEST varchar,
+
+          DEST_CITY_NAME varchar,
+
+          DEST_STATE_ABR varchar,
+
+          DEP_TIME timestamp,
+
+          ARR_TIME timestamp,
+
+          ACTUAL_ELAPSED_TIME timestamp,
+
+          AIR_TIME timestamp,
+
+          DISTANCE int)`
+
+Write a program to load the source data from the flights_from_pg.csv file into the flights table.
+### please refer FlightsData.scala. 
+
+How many records loaded?
+
+Were any errors returned during data loading?
+
+### couldn`t parse the date to LocalTime. Tried using date type of spark and cassandra which works on open source spark/cassandra but didn`t work on dse cluster. i was getting null on FL_DATE so ingested it as varchar. Solves the current use case.
+
+### had nulls on ARR_TIME , used spark function na.fill to enter "missing arival time" , could have used the cassadra config to drop nulls but for this use case i thought its not needed.
+
+Please provide your code.
+### please refer     `define_flighttable(spark) & load_flighttable(loadFlightDf)` in `FlightsData.scala`
+
+Create and populate a Cassandra table designed to list all flights leaving a particular airport, sorted by time.
+### please refer `departures_table(spark, loadFlightDf)` in `FlightsData.scala`
+
+Create and populate a Cassandra table designed to provide the carrier, origin, and destination airport for a flight based on 10 minute buckets of air_time.
+
+### please refer `airports_info(spark, loadFlightDf)` in `FlightsData.scala`
 
 Answer the following queries using either Search or Analytics.
 
@@ -130,23 +184,6 @@ How many flights originated from the ‘HNL’ airport code on 2012-01-25
 ### 288
 How many airport codes start with the letter ‘A’
 ### 22 
-`
-+------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
-|ID    |ORIGIN_AIRPORT|DEP_TIME              |AIRLINE_ID|CARRIER|FL_DATE   |FL_NUM|ORIGIN_AIRPORT_ID|ORIGIN_CITY_NAME|
-+------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
-|969721|HNL           |06:45:00              |20378     |YV     |2012/01/25|1048  |12173            |Honolulu        |
-|117646|HNL           |Missing Departure time|19790     |DL     |2012/01/25|2364  |12173            |Honolulu        |
-|701623|HNL           |Missing Departure time|19690     |HA     |2012/01/25|278   |12173            |Honolulu        |
-|488706|HNL           |Missing Departure time|19805     |AA     |2012/01/25|298   |12173            |Honolulu        |
-|701096|HNL           |Missing Departure time|19690     |HA     |2012/01/25|242   |12173            |Honolulu        |
-|969724|HNL           |Missing Departure time|20378     |YV     |2012/01/25|1026  |12173            |Honolulu        |
-|215284|HNL           |Missing Departure time|19690     |HA     |2012/01/25|262   |12173            |Honolulu        |
-|212523|HNL           |Missing Departure time|19690     |HA     |2012/01/25|48    |12173            |Honolulu        |
-|969738|HNL           |Missing Departure time|20378     |YV     |2012/01/25|1047  |12173            |Honolulu        |
-|700656|HNL           |Missing Departure time|19690     |HA     |2012/01/25|216   |12173            |Honolulu        |
-+------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
-only showing top 10 rows
-`
 
 What originating airport had the most flights on 2012-01-23
 ### [ATL,2155]  ATLANTA
@@ -156,32 +193,10 @@ Bonus – What is the route having most delays?
 ### routes having most delays: SFO -> LAX
 Bonus – Is the airport activity a factor of the delay?
 ### Yes
-`
-+--------------+------------+------------+
-|ORIGIN_AIRPORT|DEST_AIRPORT|total_delays|
-+--------------+------------+------------+
-|SFO           |LAX         |2867        |
-|LAX           |SFO         |2786        |
-|JFK           |LAX         |2296        |
-|LAX           |JFK         |2294        |
-|OGG           |HNL         |2158        |
-+--------------+------------+------------+
-`
 
 Bonus – Do airports generate delay at arrival and departure the same way?
 ### Yes
-`
-+------------+--------------+-----------+
-|DEST_AIRPORT|total_arrivals|total_delay|
-+------------+--------------+-----------+
-|ATL         |63391         |1678199.0  |
-|DFW         |53869         |1255069.0  |
-|ORD         |51863         |1327818.0  |
-|LAX         |38305         |940395.0   |
-|DEN         |38230         |842241.0   |
-+------------+--------------+-----------+
-only showing top 5 rows
-`
+
 
 
 
