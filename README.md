@@ -97,12 +97,18 @@ https://github.com/datastax/SparkBuildExamples
 
 - place the csv file on DSEFS for spark job to read.
 
-`dsefs dsefs://10.211.55.11:5598/ > mkdir data
-dsefs dsefs://10.211.55.11:5598/ > cd data/ 
-dsefs dsefs://10.211.55.11:5598/data/ > ls
-dsefs dsefs://10.211.55.11:5598/data/ > cp file:/repository/flights_from_pg.csv /data/
-dsefs dsefs://10.211.55.11:5598/data/ > ls
-flights_from_pg.csv`
+`dsefs dsefs://10.211.55.11:5598/ > mkdir data`
+
+`dsefs dsefs://10.211.55.11:5598/ > cd data/ `
+
+`dsefs dsefs://10.211.55.11:5598/data/ > ls`
+
+
+`dsefs dsefs://10.211.55.11:5598/data/ > cp file:/repository/flights_from_pg.csv /data/`
+
+`dsefs dsefs://10.211.55.11:5598/data/ > ls`
+
+`flights_from_pg.csv`
 
 - setup gradle 
 
