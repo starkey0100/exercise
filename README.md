@@ -4,7 +4,7 @@ Install a two node cluster for DSE Analytics workload using Opscenter.
    - node 1 for DSE Analytics 6GB RAM & 3 Cores
    
 
-Prerequisites:-
+##Prerequisites:-
 
 Vagrant
 Virtual Box
@@ -15,7 +15,7 @@ This Vagrant template sets up DataStax Enterprise (DSE) on a configurable number
 
 node[0-n] - DSE nodes (with prerequisites and DSE already installed)
 Notes:
-**Step1:
+##Step1:
 
 To bring up the nodes please export creadential of datastax academy before vagrant up, you can bring up the DSE nodes with the following:
 
