@@ -113,6 +113,10 @@ Task                | Command
 build               | `gradle shadowJar`
 run (Scala, Java)   | `dse -u alwayson_sql spark-submit -u username -p password --class     com.datastax.spark.example.FlightsData /repository/dseexercise-0.1-all.jar`
 
+executed the jar files on dse analytics node using spark-submit 
+`dse -u alwayson_sql spark-submit -u username -p password --class     com.datastax.spark.example.FlightsData /repository/dseexercise-0.1-all.jar`
+`dse -u alwayson_sql spark-submit -u username -p password --class     com.datastax.spark.example.AnalyticsQueries /repository/dseexercise-0.1-all.jar`
+
 # Exercise Questions
 
 ### please refer FlightsData.scala. 
