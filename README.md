@@ -44,9 +44,11 @@ DSE Authentication: https://docs.datastax.com/en/dse/6.7/dse-admin/datastax_ente
 Once cluster, DC & Nodes are define, submit the install job for the cluster. 
 
 Check the workload type:-
-`root@node1:/home/vagrant# dsetool -l cassandra -p cassandra ring 
-Address          DC                   Rack         Workload             Graph  Status  State    Load             Owns                 Token                                        Health [0,1] 
-10.211.55.11     DC1                  rack1        Analytics(SM)        no     Up      Normal   469.39 KiB       ?                    -9223372036854775808                         0.70         
+`root@node1:/home/vagrant# dsetool -l cassandra -p cassandra ring `
+
+
+`Address          DC                   Rack         Workload             Graph  Status  State    Load             Owns`                ` Token                                        Health [0,1] `
+`10.211.55.11     DC1                  rack1        Analytics(SM)        no     Up      Normal   469.39 KiB       ?   `        `         -9223372036854775808                         0.70   `      
 
 `
 Cluster Installed :- 
