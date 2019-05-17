@@ -109,7 +109,7 @@ flights_from_pg.csv`
 Task                | Command
 --------------------|------------
 build               | `gradle shadowJar`
-run (Scala, Java)   | `dse spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar`
+run (Scala, Java)   | `dse -u alwayson_sql spark-submit -u username -p password --class     com.datastax.spark.example.FlightsData /repository/dseexercise-0.1-all.jar`
 
 # Exercise Questions
 
@@ -164,38 +164,41 @@ How many records loaded?
 
 Were any errors returned during data loading?
 
-### couldn`t parse the date to LocalTime. Tried using date type of spark and cassandra which works on open source spark/cassandra but didn`t work on dse cluster. i was getting null on FL_DATE so ingested it as varchar. Solves the current use case.
+Answer: couldn`t parse the date to LocalTime. Tried using date type of spark and cassandra which works on open source spark/cassandra but didn`t work on dse cluster. i was getting null on FL_DATE so ingested it as varchar. Solves the current use case.
+Had nulls on ARR_TIME , used spark function na.fill to enter "missing arival time" , could have used the cassadra config to drop nulls but for this use case i thought its not needed.
 
-### had nulls on ARR_TIME , used spark function na.fill to enter "missing arival time" , could have used the cassadra config to drop nulls but for this use case i thought its not needed.
+LocalTime & Localdate parsing works fine with another csv file which i downloanded flights.org.
 
 Please provide your code.
-### please refer     `define_flighttable(spark) & load_flighttable(loadFlightDf)` in `FlightsData.scala`
+Answer: Please refer     `define_flighttable(spark) & load_flighttable(loadFlightDf)` in `FlightsData.scala`
 
 Create and populate a Cassandra table designed to list all flights leaving a particular airport, sorted by time.
-### please refer `departures_table(spark, loadFlightDf)` in `FlightsData.scala`
+Answer: Please refer `departures_table(spark, loadFlightDf)` in `FlightsData.scala`
 
 Create and populate a Cassandra table designed to provide the carrier, origin, and destination airport for a flight based on 10 minute buckets of air_time.
 
-### please refer `airports_info(spark, loadFlightDf)` in `FlightsData.scala`
+Answer:  Please refer `airports_info(spark, loadFlightDf)` in `FlightsData.scala`
 
 Answer the following queries using either Search or Analytics.
 
+### please refer AnalyticsQueries.scala 
+
 How many flights originated from the ‘HNL’ airport code on 2012-01-25  
-### 288
+Answer: 288
 How many airport codes start with the letter ‘A’
-### 22 
+Answer: 22 
 
 What originating airport had the most flights on 2012-01-23
-### [ATL,2155]  ATLANTA
+Answer: [ATL,2155]  ATLANTA
 Bonus – make a batch update to all records with a ‘BOS’ airport code using Spark and change the airport code to ‘TST’
-### Please refer to AnalyticsQueries.scala
+Answer: Please refer to AnalyticsQueries.scala
 Bonus – What is the route having most delays?
-### routes having most delays: SFO -> LAX
+Answer: routes having most delays: SFO -> LAX
 Bonus – Is the airport activity a factor of the delay?
-### Yes
+Answer: Yes
 
 Bonus – Do airports generate delay at arrival and departure the same way?
-### Yes
+Answer: Yes
 
 
 
