@@ -67,6 +67,18 @@ Tip: For single node cluster, replication factor of keyspace can be kept as '1' 
 alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax_enterprise/spark/alwaysOnSql.html
 
 - create a new user with SUPERUSER login. Disable default Cassandra user.
+anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';
+anoop@cqlsh> LIST ROLES;
+
+ role         | super | login | options
+--------------+-------+-------+---------
+ alwayson_sql | False |  True |        {}
+       my_name|  True |  True |        {}
+    cassandra | False | False |        {}
+
+(3 rows)
+
+
 - grant proxy to alwayson_sql user for the new user. 
 - check the status of dse service 
 root@node1:/home/vagrant# service dse status
