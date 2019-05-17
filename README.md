@@ -19,18 +19,18 @@ Notes:
 
 To bring up the nodes please export creadential of datastax academy before vagrant up, you can bring up the DSE nodes with the following:
 
-$ export VAGRANT_DSE_USERNAME=your-username
-$ export VAGRANT_DSE_PASSWORD=your-password
-$ # optional: adjust DSE_NODES value in Vagrantfile (default 3)
-$ vagrant up
+`$ export VAGRANT_DSE_USERNAME=your-username`
+
+`$ export VAGRANT_DSE_PASSWORD=your-password`
+`$ # optional: add another row in pocd_nodes Array for more nodes in Vagrantfile (default 2)`
+`$ vagrant up`
+
 When the up command is done, you can check the status of the VMs:
 
-$ vagrant status
-Configured for 3 DSE node(s)
-Current machine states:
+`$ vagrant status`
 
-node0           running (virtualbox)
-node1           running (virtualbox)
+`node0           running (virtualbox)`
+`node1           running (virtualbox)`
 
 ## Step2: Install the cluster using LCM :-
 Create the ssh, config, repository on OpsCenter for installing the cluster.
