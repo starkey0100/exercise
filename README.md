@@ -1,5 +1,5 @@
 # exercise
-Install a two node cluster for DSE Analytics workload using Opscenter.
+Installed a two node cluster for DSE Analytics workload using Opscenter.
    - node 0 for Opscenter. 2.5GB RAM and 2 Cores
    - node 1 for DSE Analytics 6GB RAM & 3 Cores
    
