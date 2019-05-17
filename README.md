@@ -4,7 +4,7 @@ Install a two node cluster for DSE Analytics workload using Opscenter.
    - node 1 for DSE Analytics 6GB RAM & 3 Cores
    
 
-##Prerequisites:-
+## Prerequisites:-
 
 Vagrant
 Virtual Box
@@ -15,7 +15,7 @@ This Vagrant template sets up DataStax Enterprise (DSE) on a configurable number
 
 node[0-n] - DSE nodes (with prerequisites and DSE already installed)
 Notes:
-##Step1:
+## Step1:
 
 To bring up the nodes please export creadential of datastax academy before vagrant up, you can bring up the DSE nodes with the following:
 
@@ -32,7 +32,7 @@ Current machine states:
 node0           running (virtualbox)
 node1           running (virtualbox)
 
-**Step2: Install the cluster using LCM :-
+## Step2: Install the cluster using LCM :-
 Create the ssh, config, repository on OpsCenter for installing the cluster.
 DSE Analytics needs additional options such as AlwaysOn_SQL & DSE Authentication. Please refer the links below :-
 
@@ -56,7 +56,7 @@ Below is LCM view
 Below is OpsCenterView 
 ![image](https://user-images.githubusercontent.com/50682370/57921982-46b76e80-7864-11e9-89ed-6331bdde53a3.png)
 
-**Step3: Prepare the node for enabling analytics. 
+## Step3: Prepare the node for enabling analytics. 
 Please go through the instructions again. 
 Tip: For single node cluster, replication factor of keyspace can be kept as '1' with 'NetworkTopologyStrategy' like below
  ALTER KEYSPACE "HiveMetaStore"
@@ -67,9 +67,9 @@ Tip: For single node cluster, replication factor of keyspace can be kept as '1' 
 alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax_enterprise/spark/alwaysOnSql.html
 
 - create a new user with SUPERUSER login. Disable default Cassandra user.
-anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';
-anoop@cqlsh> LIST ROLES;
-
+`anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';``
+`anoop@cqlsh> LIST ROLES;`
+`
  role         | super | login | options
 --------------+-------+-------+---------
  alwayson_sql | False |  True |        {}
@@ -77,7 +77,7 @@ anoop@cqlsh> LIST ROLES;
     cassandra | False | False |        {}
 
 (3 rows)
-
+`
 
 - grant proxy to alwayson_sql user for the new user. 
 - Once all changes are done, restart the dse service and Alwayson_sql comes up itself if everything was setup correctly. 
