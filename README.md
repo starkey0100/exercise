@@ -79,7 +79,15 @@ AlwaysOn SQL 10.211.55.11:10001 status: Running
 
 !! All set to solve some problems. 
 
-Step4.
+Step4. Prepare the IDE for running some spark jobs.
+used Gradle:-
+- Clone the Datastax project template 
+https://github.com/datastax/SparkBuildExamples
+
+Gradle
+Task	Command
+build	gradle shadowJar
+run (Scala, Java)	dse spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar
 
 
 
