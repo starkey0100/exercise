@@ -69,9 +69,11 @@ alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax
 - create a new user with SUPERUSER login. Disable default Cassandra user.
 
 
-`anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';``
-`anoop@cqlsh> LIST ROLES;`
-`
+`anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';
+
+
+anoop@cqlsh> LIST ROLES;
+
  role         | super | login | options
 --------------+-------+-------+---------
  alwayson_sql | False |  True |        {}
@@ -94,7 +96,7 @@ AlwaysOn SQL 10.211.55.11:10001 status: Running
 `
 !! All set to solve some problems. 
 
-**Step4. Prepare the IDE for running some spark jobs.
+## Step4. Prepare the IDE for running some spark jobs.
 used Gradle:-
 - Clone the Datastax project template 
 https://github.com/datastax/SparkBuildExamples
@@ -117,22 +119,69 @@ Task                | Command
 build               | `gradle shadowJar`
 run (Scala, Java)   | `dse spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar`
 
+# Exercise Questions
+
+
+
+
 Answer the following queries using either Search or Analytics.
 
 How many flights originated from the ‘HNL’ airport code on 2012-01-25  
+### 288
 How many airport codes start with the letter ‘A’
+### 22 
+`
++------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
+|ID    |ORIGIN_AIRPORT|DEP_TIME              |AIRLINE_ID|CARRIER|FL_DATE   |FL_NUM|ORIGIN_AIRPORT_ID|ORIGIN_CITY_NAME|
++------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
+|969721|HNL           |06:45:00              |20378     |YV     |2012/01/25|1048  |12173            |Honolulu        |
+|117646|HNL           |Missing Departure time|19790     |DL     |2012/01/25|2364  |12173            |Honolulu        |
+|701623|HNL           |Missing Departure time|19690     |HA     |2012/01/25|278   |12173            |Honolulu        |
+|488706|HNL           |Missing Departure time|19805     |AA     |2012/01/25|298   |12173            |Honolulu        |
+|701096|HNL           |Missing Departure time|19690     |HA     |2012/01/25|242   |12173            |Honolulu        |
+|969724|HNL           |Missing Departure time|20378     |YV     |2012/01/25|1026  |12173            |Honolulu        |
+|215284|HNL           |Missing Departure time|19690     |HA     |2012/01/25|262   |12173            |Honolulu        |
+|212523|HNL           |Missing Departure time|19690     |HA     |2012/01/25|48    |12173            |Honolulu        |
+|969738|HNL           |Missing Departure time|20378     |YV     |2012/01/25|1047  |12173            |Honolulu        |
+|700656|HNL           |Missing Departure time|19690     |HA     |2012/01/25|216   |12173            |Honolulu        |
++------+--------------+----------------------+----------+-------+----------+------+-----------------+----------------+
+only showing top 10 rows
+`
+
 What originating airport had the most flights on 2012-01-23
+### [ATL,2155]  ATLANTA
 Bonus – make a batch update to all records with a ‘BOS’ airport code using Spark and change the airport code to ‘TST’
-** Please refer to BatchUpdate(loadFlightDf) method on AnalyticsQueries.scala
+### Please refer to AnalyticsQueries.scala
 Bonus – What is the route having most delays?
+### routes having most delays: SFO -> LAX
 Bonus – Is the airport activity a factor of the delay?
+### Yes
+`
++--------------+------------+------------+
+|ORIGIN_AIRPORT|DEST_AIRPORT|total_delays|
++--------------+------------+------------+
+|SFO           |LAX         |2867        |
+|LAX           |SFO         |2786        |
+|JFK           |LAX         |2296        |
+|LAX           |JFK         |2294        |
+|OGG           |HNL         |2158        |
++--------------+------------+------------+
+`
+
 Bonus – Do airports generate delay at arrival and departure the same way?
-
-Please see below output of of AnalyticsQueries.scala for further details:-
-
-
-
-
+### Yes
+`
++------------+--------------+-----------+
+|DEST_AIRPORT|total_arrivals|total_delay|
++------------+--------------+-----------+
+|ATL         |63391         |1678199.0  |
+|DFW         |53869         |1255069.0  |
+|ORD         |51863         |1327818.0  |
+|LAX         |38305         |940395.0   |
+|DEN         |38230         |842241.0   |
++------------+--------------+-----------+
+only showing top 5 rows
+`
 
 
 
