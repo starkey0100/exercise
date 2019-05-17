@@ -44,11 +44,11 @@ DSE Authentication: https://docs.datastax.com/en/dse/6.7/dse-admin/datastax_ente
 Once cluster, DC & Nodes are define, submit the install job for the cluster. 
 
 Check the workload type:-
-root@node1:/home/vagrant# dsetool -l cassandra -p cassandra ring 
+`root@node1:/home/vagrant# dsetool -l cassandra -p cassandra ring 
 Address          DC                   Rack         Workload             Graph  Status  State    Load             Owns                 Token                                        Health [0,1] 
 10.211.55.11     DC1                  rack1        Analytics(SM)        no     Up      Normal   469.39 KiB       ?                    -9223372036854775808                         0.70         
 
-
+`
 Cluster Installed :- 
 Below is LCM view
 ![image](https://user-images.githubusercontent.com/50682370/57921809-e6c0c800-7863-11e9-9fb9-e7b313fa8ddc.png)
@@ -59,14 +59,16 @@ Below is OpsCenterView
 ## Step3: Prepare the node for enabling analytics. 
 Please go through the instructions again. 
 Tip: For single node cluster, replication factor of keyspace can be kept as '1' with 'NetworkTopologyStrategy' like below
- ALTER KEYSPACE "HiveMetaStore"
+ `ALTER KEYSPACE "HiveMetaStore"
    WITH REPLICATION = {
    'class': 'NetworkTopologyStrategy', 
-   'DC1': '1'};
+   'DC1': '1'};`
    
 alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax_enterprise/spark/alwaysOnSql.html
 
 - create a new user with SUPERUSER login. Disable default Cassandra user.
+
+
 `anoop@cqlsh> ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false AND password='new_secret_pw';``
 `anoop@cqlsh> LIST ROLES;`
 `
@@ -82,14 +84,14 @@ alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax
 - grant proxy to alwayson_sql user for the new user. 
 - Once all changes are done, restart the dse service and Alwayson_sql comes up itself if everything was setup correctly. 
 
-root@node1:/home/vagrant# service dse restart
+`root@node1:/home/vagrant# service dse restart
  * Restarting DSE daemon dse                                                                                                                                  [ OK ] 
 
-DSE daemon starting with Spark enabled (edit /etc/default/dse to disable)
-                                                                                                                                                              [ OK ]
-root@node1:/home/vagrant# dse client-tool -u a#### -p h###y alwayson-sql status
+`DSE daemon starting with Spark enabled (edit /etc/default/dse to disable)
+                                                                                                                                                              [ OK ]`
+`root@node1:/home/vagrant# dse client-tool -u a#### -p h###y alwayson-sql status
 AlwaysOn SQL 10.211.55.11:10001 status: Running
-
+`
 !! All set to solve some problems. 
 
 **Step4. Prepare the IDE for running some spark jobs.
@@ -99,19 +101,21 @@ https://github.com/datastax/SparkBuildExamples
 
 - place the csv file on DSEFS for spark job to read.
 
-dsefs dsefs://10.211.55.11:5598/ > mkdir data
+`dsefs dsefs://10.211.55.11:5598/ > mkdir data
 dsefs dsefs://10.211.55.11:5598/ > cd data/ 
 dsefs dsefs://10.211.55.11:5598/data/ > ls
 dsefs dsefs://10.211.55.11:5598/data/ > cp file:/repository/flights_from_pg.csv /data/
 dsefs dsefs://10.211.55.11:5598/data/ > ls
-flights_from_pg.csv
+flights_from_pg.csv`
 
 - setup gradle 
-Gradle
-Task	Command
-build	gradle shadowJar
-run (Scala, Java)	dse 10.211.55.11 - u username -p password spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar
 
+### Gradle
+
+Task                | Command
+--------------------|------------
+build               | `gradle shadowJar`
+run (Scala, Java)   | `dse spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar`
 
 Answer the following queries using either Search or Analytics.
 
