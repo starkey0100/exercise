@@ -32,7 +32,8 @@ Current machine states:
 node0           running (virtualbox)
 node1           running (virtualbox)
 
-Step2: Create the ssh, config, repository on OpsCenter for installing the cluster.
+Step2: Install the cluster using LCM :-
+Create the ssh, config, repository on OpsCenter for installing the cluster.
 DSE Analytics needs additional options such as AlwaysOn_SQL & DSE Authentication. Please refer the links below :-
 
 Pro Tip(Read the instruction on following links carefully and follow them)
@@ -42,11 +43,45 @@ DSE Authentication: https://docs.datastax.com/en/dse/6.7/dse-admin/datastax_ente
 
 Once cluster, DC & Nodes are define, submit the install job for the cluster. 
 
+Check the workload type:-
+root@node1:/home/vagrant# dsetool -l cassandra -p cassandra ring 
+Address          DC                   Rack         Workload             Graph  Status  State    Load             Owns                 Token                                        Health [0,1] 
+10.211.55.11     DC1                  rack1        Analytics(SM)        no     Up      Normal   469.39 KiB       ?                    -9223372036854775808                         0.70         
+
+
 Cluster Installed :- 
 Below is LCM view
 ![image](https://user-images.githubusercontent.com/50682370/57921809-e6c0c800-7863-11e9-9fb9-e7b313fa8ddc.png)
 
-Below is OpsCenterView
+Below is OpsCenterView 
+![image](https://user-images.githubusercontent.com/50682370/57921982-46b76e80-7864-11e9-89ed-6331bdde53a3.png)
+
+Step3: Prepare the node for enabling analytics. 
+Please go through the instructions again. 
+Tip: For single node cluster, replication factor of keyspace can be kept as '1' with 'NetworkTopologyStrategy' like below
+ ALTER KEYSPACE "HiveMetaStore"
+   WITH REPLICATION = {
+   'class': 'NetworkTopologyStrategy', 
+   'DC1': '1'};
+   
+alwayson_sql instructions: https://docs.datastax.com/en/dse/6.7/dse-dev/datastax_enterprise/spark/alwaysOnSql.html
+
+- create a new user with SUPERUSER login. Disable default Cassandra user.
+- grant proxy to alwayson_sql user for the new user. 
+- check the status of dse service 
+root@node1:/home/vagrant# service dse status
+ * dse is running
+- dse client-tool -u *@# -p *@# alwayson-sql status
+AlwaysOn SQL 10.211.55.11:10001 status: Starting
+
+root@node1:/home/vagrant# dse client-tool -u anoop -p happy alwayson-sql status
+AlwaysOn SQL 10.211.55.11:10001 status: Running
+
+!! All set to solve some problems. 
+
+Step4.
+
+
 
 
 
