@@ -43,6 +43,13 @@ DSE Authentication: https://docs.datastax.com/en/dse/6.7/dse-admin/datastax_ente
 Once cluster, DC & Nodes are define, submit the install job for the cluster. 
 
 Cluster Installed :- 
+Below is LCM view
+![image](https://user-images.githubusercontent.com/50682370/57921809-e6c0c800-7863-11e9-9fb9-e7b313fa8ddc.png)
+
+Below is OpsCenterView
+
+
+
 
 
 
