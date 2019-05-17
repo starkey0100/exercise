@@ -186,30 +186,30 @@ Answer the following queries using either Search or Analytics.
 How many flights originated from the ‘HNL’ airport code on 2012-01-25
 
 
-Answer: 288
+`Answer: 288`
 
 
 How many airport codes start with the letter ‘A’
 
 
-Answer: 22 
+`Answer: 22`
 
 What originating airport had the most flights on 2012-01-23
 
 
-Answer: [ATL,2155]  ATLANTA
+`Answer: [ATL,2155]  ATLANTA`
 
 
 Bonus – make a batch update to all records with a ‘BOS’ airport code using Spark and change the airport code to ‘TST’
 
 
-Answer: Please refer to AnalyticsQueries.scala
+`Answer: Please refer to AnalyticsQueries.scala`
 
 
 Bonus – What is the route having most delays?
 
 
-Answer: routes having most delays: SFO -> LAX
+`Answer: routes having most delays: SFO -> LAX`
 
 
 Bonus – Is the airport activity a factor of the delay?
