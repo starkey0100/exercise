@@ -97,10 +97,20 @@ used Gradle:-
 - Clone the Datastax project template 
 https://github.com/datastax/SparkBuildExamples
 
+- place the csv file on DSEFS for spark job to read.
+
+dsefs dsefs://10.211.55.11:5598/ > mkdir data
+dsefs dsefs://10.211.55.11:5598/ > cd data/ 
+dsefs dsefs://10.211.55.11:5598/data/ > ls
+dsefs dsefs://10.211.55.11:5598/data/ > cp file:/repository/flights_from_pg.csv /data/
+dsefs dsefs://10.211.55.11:5598/data/ > ls
+flights_from_pg.csv
+
+- setup gradle 
 Gradle
 Task	Command
 build	gradle shadowJar
-run (Scala, Java)	dse spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar
+run (Scala, Java)	dse 10.211.55.11 - u username -p password spark-submit --class com.datastax.spark.example.WriteRead build/libs/writeRead-0.1-all.jar
 
 
 Answer the following queries using either Search or Analytics.
